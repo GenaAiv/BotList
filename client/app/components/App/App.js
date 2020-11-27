@@ -1,18 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import Header from "../Header/Header";
+import Main from "../Home/Main";
+import Footer from "../Footer/Footer";
+import store from "../../redux/store";
+import { Provider } from "react-redux";
 
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-
-const App = ({ children }) => (
-  <>
-    <Header />
-
-    <main>
-      {children}
-    </main>
-
-    <Footer />
-  </>
-);
+class App extends Component {
+  render() {
+    return (
+      <>
+        <Provider store={store}>
+          <Header />
+          <main>
+            <Main />
+          </main>
+          <Footer />
+        </Provider>
+      </>
+    );
+  }
+}
 
 export default App;
