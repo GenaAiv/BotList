@@ -9,19 +9,23 @@ const webpackHotMiddleware = require("webpack-hot-middleware");
 const config = require("../config/config");
 const webpackConfig = require("../webpack.config");
 require("dotenv").config();
-
 const isDev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 8080;
+const db = process.env.MONGODB_URI;
+
 // Configuration
 // ================================================================================================
 
 // Set up Mongoose
-mongoose.connect(process.env.DB_PRO, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
-});
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  })
+  .then(() => console.log("MongoDB Connected...."))
+  .catch((err) => console.log(err));
 mongoose.Promise = global.Promise;
 
 const app = express();
@@ -57,7 +61,7 @@ if (isDev) {
 
   app.use(webpackHotMiddleware(compiler));
   app.use(express.static(path.resolve(__dirname, "../dist")));
-} else {
+} else if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../dist")));
   app.get("*", jsonParser, function (req, res) {
     res.sendFile(path.resolve(__dirname, "../dist/index.html"));
