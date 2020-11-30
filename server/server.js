@@ -18,12 +18,15 @@ const db = process.env.MONGODB_URI;
 
 // Set up Mongoose
 mongoose
-  .connect(db, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-  })
+  .connect(
+    "mongodb+srv://gena-aiv:7182544a@supportyourlocalartist.umdtk.mongodb.net/botlist?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    }
+  )
   .then(() => console.log("MongoDB Connected...."))
   .catch((err) => console.log(err));
 mongoose.Promise = global.Promise;

@@ -10,8 +10,20 @@ class ChangeCell extends Component {
   render() {
     const { index, item } = this.props;
     console.log(item.diff);
-    if (item.diff < 0) return <div>"GREEN"</div>;
-    else if (item.diff > 0) return <div>{"RED"}</div>;
+    if (item.diff < 0)
+      return (
+        <img
+          style={{ height: "50px", width: "50px" }}
+          src={require("../../assets/green.png")}
+        />
+      );
+    else if (item.diff > 0)
+      return (
+        <img
+          style={{ height: "50px", width: "50px" }}
+          src={require("../../assets/red.png")}
+        />
+      );
     else if (item.diff === null) return <div>{"N/A"}</div>;
     return <>N/A</>;
 
@@ -24,7 +36,7 @@ class ChangeCell extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // diff: state.table.tableData.diff
 });
 
