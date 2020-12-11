@@ -9,7 +9,7 @@ module.exports = merge(commonConfig, {
   mode: "development",
 
   entry: {
-    app: ["./client/app/index.js"],
+    app: ["webpack-hot-middleware/client?reload=true"],
   },
 
   output: {

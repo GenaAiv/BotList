@@ -9,19 +9,13 @@ class Row extends Component {
     this.state = {};
   }
 
-  //on cell update, it will send the current index as "prevIndex" to the database.
-  // on render of new table it will compare prevIndex with index
   render() {
     const { data } = this.props;
 
     return [...data].map((item, index) => (
       <tr key={item._id}>
-        <td>
-          <img
-            src={`data:image/jpg;base64,${item.image}`}
-            width="20px"
-            height="20px"
-          />
+        <td className="tableImg">
+          <img src={`data:image/jpg;base64,${item.image}`} />
         </td>
         <td>
           <Cell
@@ -33,9 +27,10 @@ class Row extends Component {
         </td>
         <td>
           <Cell type="number" value={item.points} id={item._id} index={index} />
+          {/* <ChangeCell item={item} index={index} /> */}
         </td>
         <td className="changeTD">
-          <ChangeCell item={item} />
+          <ChangeCell item={item} index={index} />
         </td>
         <DeleteBot item={item} />
       </tr>

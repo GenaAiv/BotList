@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { signIn } from "../../redux/actions";
+import { withAlert } from "react-alert";
+import { compose } from "redux";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       signInEmail: "",
-      signInPassword: ""
+      signInPassword: "",
     };
 
     this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -20,12 +22,12 @@ class Login extends Component {
 
   onChangeEmail(e) {
     this.setState({
-      signInEmail: e.target.value
+      signInEmail: e.target.value,
     });
   }
   onChangePassword(e) {
     this.setState({
-      signInPassword: e.target.value
+      signInPassword: e.target.value,
     });
   }
 
@@ -35,13 +37,13 @@ class Login extends Component {
 
     let user = {
       email: signInEmail,
-      password: signInPassword
+      password: signInPassword,
     };
     this.props.signIn(user);
   }
   render() {
     const { signInEmail, signInPassword } = this.state;
-    const { isLoading, signInError } = this.props;
+    const { isLoading, signInError, alert } = this.props;
 
     if (isLoading) return "Loading...";
     else
@@ -68,11 +70,20 @@ class Login extends Component {
             <input
               type="submit"
               value="Login"
-              onClick={e => this.onSignIn(e)}
+              onClick={(e) => {
+                if (
+                  signInEmail.length < 1 ||
+                  signInPassword.length.length < 1
+                ) {
+                  alert.error("Email or Password is empty");
+                } else if (signInEmail != "shabzy@gmail.com") {
+                  alert.error("Wrong Email");
+                }
+                this.onSignIn(e);
+              }}
             ></input>
-            <hr></hr>
+            <p>{signInError === "Invalid Credentials" ? signInError : ""}</p>
           </form>
-          <p>{signInError ? signInError : ""}</p>
         </div>
       );
   }
@@ -80,13 +91,16 @@ class Login extends Component {
 
 Login.propTypes = {
   signIn: PropTypes.func.isRequired,
-  token: PropTypes.string
+  token: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   token: state.signIn.token,
   isLoading: state.table.isLoading,
-  signInError: state.signIn.signInError
+  signInError: state.signIn.signInError,
 });
 
-export default connect(mapStateToProps, { signIn })(Login);
+export default compose(
+  withAlert(),
+  connect(mapStateToProps, { signIn })
+)(Login);

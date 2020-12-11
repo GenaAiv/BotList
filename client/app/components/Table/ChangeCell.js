@@ -9,18 +9,18 @@ class ChangeCell extends Component {
 
   render() {
     const { index, item } = this.props;
-    console.log(item.diff);
+
     if (item.diff < 0)
       return (
         <img
-          style={{ height: "50px", width: "50px" }}
+          style={{ height: "50px", width: "40px" }}
           src={require("../../assets/green.png")}
         />
       );
     else if (item.diff > 0)
       return (
         <img
-          style={{ height: "50px", width: "50px" }}
+          style={{ height: "50px", width: "40px" }}
           src={require("../../assets/red.png")}
         />
       );

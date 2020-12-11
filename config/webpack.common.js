@@ -94,5 +94,10 @@ module.exports = {
       filename: "css/[name].[hash].css",
       disable: !isProd,
     }),
+    new CopyWebpackPlugin([
+      {
+        from: helpers.root("client/public"),
+      },
+    ]),
   ],
 };

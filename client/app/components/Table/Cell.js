@@ -17,9 +17,9 @@ class Cell extends Component {
         ref="input"
         placeholder={value}
         type={type}
-        onBlur={e => this.onBlur(e)}
+        onBlur={(e) => this.onBlur(e)}
         ref={this.textInput}
-        onKeyDown={e => this.onEnterKey(e)}
+        onKeyDown={(e) => this.onEnterKey(e)}
       />
     ) : (
       <div onClick={() => this.onFocus()}>{value}</div>

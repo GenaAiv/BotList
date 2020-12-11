@@ -3,20 +3,20 @@ const mongoose = require("mongoose");
 const BotListSchema = new mongoose.Schema({
   botLogo: {
     type: Buffer,
-    contentType: String
+    contentType: String,
   },
   botName: {
     type: String,
-    default: ""
+    default: "",
   },
   points: {
     type: Number,
-    default: 0
+    default: 0,
   },
   diff: {
     type: Number,
-    default: null
-  }
+    default: null,
+  },
 });
 
 module.exports = mongoose.model("BotList", BotListSchema);

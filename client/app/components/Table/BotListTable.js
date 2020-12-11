@@ -10,7 +10,7 @@ class BotListTable extends Component {
     super(props);
 
     this.state = {
-      currentSort: "down"
+      currentSort: "down",
     };
   }
 
@@ -25,22 +25,22 @@ class BotListTable extends Component {
     const sortTypes = {
       up: {
         class: "sort-up",
-        fn: (a, b) => a.points - b.points
+        fn: (a, b) => a.points - b.points,
       },
       down: {
         class: "sort-down",
-        fn: (a, b) => b.points - a.points
+        fn: (a, b) => b.points - a.points,
       },
       default: {
         class: "sort",
-        fn: (a, b) => a
-      }
+        fn: (a, b) => a,
+      },
     };
 
     if (isLoading) return <p>Loading...</p>;
     else
       return (
-        <>
+        <div className="tableDiv">
           <Table
             striped
             bordered
@@ -59,16 +59,18 @@ class BotListTable extends Component {
             <tbody>
               {tableData.sort(sortTypes[currentSort].fn).map((item, index) => (
                 <tr key={index}>
-                  <td>
+                  <td className="tableImg">
                     <img
                       src={`data:image/jpg;base64,${item.image}`}
-                      width="20px"
-                      height="20px"
                       key={index}
                     />
                   </td>
-                  <td>{item.name}</td>
-                  <td>{item.points}</td>
+                  <td>
+                    <p>{item.name}</p>
+                  </td>
+                  <td>
+                    <p>{item.points}</p>
+                  </td>
                   <td>
                     <ChangeCell item={item} />
                   </td>
@@ -76,7 +78,7 @@ class BotListTable extends Component {
               ))}
             </tbody>
           </Table>
-        </>
+        </div>
       );
   }
 }
@@ -84,11 +86,11 @@ class BotListTable extends Component {
 BotListTable.propTypes = {
   getToken: PropTypes.func,
   fetchTable: PropTypes.func.isRequired,
-  tableData: PropTypes.array.isRequired
+  tableData: PropTypes.array.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tableData: state.table.tableData,
-  isLoading: state.table.isLoading
+  isLoading: state.table.isLoading,
 });
 
 export default connect(mapStateToProps, { fetchTable })(BotListTable);

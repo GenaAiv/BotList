@@ -10,17 +10,13 @@ class ADMINBotListTable extends Component {
     super(props);
 
     this.state = {
-      currentSort: "down"
+      currentSort: "down",
     };
   }
 
   componentDidMount() {
     this.props.fetchTable();
   }
-  // componentWillUpdate(prevProps) {
-  //   console.log("rrer", this.props);
-  //   if (prevProps.tableData === this.props.tableData) this.props.fetchTable();
-  // }
 
   render() {
     const { currentSort } = this.state;
@@ -29,22 +25,22 @@ class ADMINBotListTable extends Component {
     const sortTypes = {
       up: {
         class: "sort-up",
-        fn: (a, b) => a.points - b.points
+        fn: (a, b) => a.points - b.points,
       },
       down: {
         class: "sort-down",
-        fn: (a, b) => b.points - a.points
+        fn: (a, b) => b.points - a.points,
       },
       default: {
         class: "sort",
-        fn: (a, b) => a
-      }
+        fn: (a, b) => a,
+      },
     };
 
     if (isLoading) return <p>Loading...</p>;
     else if (!this.props.token) return "";
     return (
-      <>
+      <div className="tableDiv">
         <Table
           striped
           bordered
@@ -58,13 +54,14 @@ class ADMINBotListTable extends Component {
               <th>Name</th>
               <th>Points</th>
               <th>Change</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             <Row data={tableData.sort(sortTypes[currentSort].fn)}></Row>
           </tbody>
         </Table>
-      </>
+      </div>
     );
   }
 }
@@ -72,12 +69,12 @@ class ADMINBotListTable extends Component {
 ADMINBotListTable.propTypes = {
   getToken: PropTypes.func,
   fetchTable: PropTypes.func.isRequired,
-  tableData: PropTypes.array.isRequired
+  tableData: PropTypes.array.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tableData: state.table.tableData,
   isLoading: state.table.isLoading,
-  token: state.signIn
+  token: state.signIn,
 });
 
 export default connect(mapStateToProps, { fetchTable })(ADMINBotListTable);

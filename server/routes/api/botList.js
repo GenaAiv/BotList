@@ -10,17 +10,17 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 10
+    fileSize: 1024 * 1024 * 10,
   },
-  fileFilter: fileFilter
+  fileFilter: fileFilter,
 });
 
-module.exports = app => {
+module.exports = (app) => {
   app.get("/botlist/list", async (req, res, next) => {
     let results = [];
     BotList.find({}, (err, data) => {
       if (!data) res.send({ success: true, message: "no data" });
-      data.forEach(e => {
+      data.forEach((e) => {
         const name = e.botName;
         const image = e.botLogo.toString("base64");
         const points = e.points;
@@ -32,7 +32,7 @@ module.exports = app => {
 
       res.send({
         success: true,
-        results
+        results,
       });
     });
   });
@@ -46,7 +46,7 @@ module.exports = app => {
     if (!body || !file) {
       res.send({
         success: false,
-        message: "Error: Please include bot name and a logo"
+        message: "Error: Please include bot name and a logo",
       });
     } else {
       let botLogo = file.buffer;
@@ -55,7 +55,7 @@ module.exports = app => {
         botLogo,
         botName,
         points: 0,
-        diff: 0
+        diff: 0,
       });
 
       botName.toLowerCase();
@@ -68,16 +68,18 @@ module.exports = app => {
             let results = [];
             if (err) res.send({ success: false, message: err });
             if (!data) res.send({ success: false, message: "no data" });
-            data.forEach(e => {
+            data.forEach((e) => {
               const name = e.botName;
               const image = e.botLogo.toString("base64");
               const points = e.points;
               const _id = e._id;
-              results.push({ name, image, points, _id });
+              const diff = e.diff;
+
+              results.push({ name, image, points, _id, diff });
             });
             res.send({
               success: true,
-              results
+              results,
             });
           });
         }
@@ -93,35 +95,37 @@ module.exports = app => {
 
     BotList.findByIdAndRemove(
       {
-        _id: id
+        _id: id,
       },
       (err, deleted) => {
         if (err) {
           res.send({
             success: false,
-            message: "Error: Server error"
+            message: "Error: Server error",
           });
         } else {
           let results = [];
           BotList.find({}, (err, data) => {
-            data.forEach(e => {
+            data.forEach((e) => {
               const name = e.botName;
               const image = e.botLogo.toString("base64");
               const points = e.points;
               const _id = e._id;
+              const diff = e.diff;
 
-              results.push({ name, image, points, _id });
+              results.push({ name, image, points, _id, diff });
             });
 
             if (results.length > 0) {
               res.send({
                 success: true,
-                results
+                results,
               });
             } else {
               res.send({
-                success: false,
-                message: "List is Empty"
+                success: true,
+                message: "List is Empty",
+                results,
               });
             }
           });
@@ -140,7 +144,7 @@ module.exports = app => {
     } else {
       BotList.findOneAndUpdate(
         {
-          _id
+          _id,
         },
         { botName: value }
       ).then((result, err) => {
@@ -148,7 +152,7 @@ module.exports = app => {
         let results = [];
         BotList.find({}, (err, data) => {
           if (!data) res.send({ success: true, message: "no data" });
-          data.forEach(e => {
+          data.forEach((e) => {
             const name = e.botName;
             const image = e.botLogo.toString("base64");
             const points = e.points;
@@ -160,7 +164,7 @@ module.exports = app => {
           res.send({
             results,
             success: true,
-            message: "Updated Points"
+            message: "Updated Points",
           });
         });
       });
@@ -181,7 +185,7 @@ module.exports = app => {
         newPoints = parseInt(value, 10);
         BotList.findOneAndUpdate(
           {
-            _id
+            _id,
           },
           { points: newPoints, diff }
         ).then((result, err) => {
@@ -189,7 +193,7 @@ module.exports = app => {
           let results = [];
           BotList.find({}, (err, data) => {
             if (!data) res.send({ success: true, message: "no data" });
-            data.forEach(e => {
+            data.forEach((e) => {
               const name = e.botName;
               const image = e.botLogo.toString("base64");
               const points = e.points;
@@ -201,7 +205,7 @@ module.exports = app => {
             res.send({
               results,
               success: true,
-              message: "Updated Points"
+              message: "Updated Points",
             });
           });
         });

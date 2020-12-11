@@ -1,7 +1,7 @@
 const Session = require("../../models/Session");
 const User = require("../../models/User");
 
-module.exports = app => {
+module.exports = (app) => {
   app.post("/api/account/signin", (req, res, next) => {
     // get the login information from the body of the request
     const { body } = req;
@@ -9,17 +9,10 @@ module.exports = app => {
     let { email, password } = body;
 
     // response if the email or password is empty
-    if (!email) {
+    if (!email || !password) {
       return res.send({
         success: false,
-        message: "Error: Please fill in the email bebe"
-      });
-    }
-
-    if (!password) {
-      return res.send({
-        success: false,
-        message: "Error: Please fill in the password"
+        message: "Email or Password is missing",
       });
     }
     // if both is inputted we compare the info with database
@@ -29,39 +22,37 @@ module.exports = app => {
     // Look for a match in the email
     User.find(
       {
-        email: email
+        email: email,
       },
       (err, users) => {
         if (err)
           return res.send({
             success: false,
-            message: "Error: Server Error"
+            message: "Error: Server Error",
           });
         if (users.length != 1)
           return res.send({
             success: false,
-            message: "Error: Invalid Credentials"
+            message: "Invalid Credentials",
           });
-        // if no errors and email is matched, check if the password is valid
-        // assign user to the first match (should be only 1 match)
         const user = users[0];
-        // see is the password matches
+
         if (!user.validPassword(password))
           return res.send({
             success: false,
-            message: "Error: Invalid Credentials"
+            message: "Invalid Credentials",
           });
 
         Session.find(
           {
-            userId: user._id
+            userId: user._id,
           },
           (err, session) => {
             if (session.length > 0) {
               return res.send({
                 success: true,
                 message: "Already Logged in!",
-                token: session[0]._id
+                token: session[0]._id,
               });
             }
             const userSession = new Session();
@@ -70,12 +61,12 @@ module.exports = app => {
               if (err)
                 return res.send({
                   success: false,
-                  message: "Error: Server error"
+                  message: "Error: Server error",
                 });
               return res.send({
                 success: true,
                 message: "Welcome King Bebe!",
-                token: doc._id
+                token: doc._id,
               });
             });
           }
@@ -92,14 +83,14 @@ module.exports = app => {
     if (!firstName || !lastName || !email || !password) {
       return res.send({
         success: false,
-        message: "Error: Something is missing"
+        message: "Error: Something is missing",
       });
     }
     email = email.toLowerCase();
 
     User.find(
       {
-        email: email
+        email: email,
       },
       (err, prevUser) => {
         if (err)
@@ -107,7 +98,7 @@ module.exports = app => {
         else if (prevUser.length > 0)
           return res.send({
             success: false,
-            message: "Error: Account already exists"
+            message: "Error: Account already exists",
           });
 
         const newUser = new User();
@@ -122,7 +113,7 @@ module.exports = app => {
             return res.send({ success: false, message: "Error: Server error" });
           return res.send({
             success: true,
-            message: "Welcome to the bebe Club"
+            message: "Welcome to the bebe Club",
           });
         });
       }
@@ -137,26 +128,26 @@ module.exports = app => {
       Session.deleteOne(
         {
           _id: token,
-          isDeleted: false
+          isDeleted: false,
         },
         {},
-        err => {
+        (err) => {
           if (err)
             return res.send({
               success: false,
-              message: "Error: " + err.reason
+              message: "Error: " + err.reason,
             });
 
           return res.send({
             success: true,
-            message: "Logged out"
+            message: "Logged out",
           });
         }
       );
     } else {
       res.send({
         success: false,
-        message: "Error: No Token"
+        message: "Error: No Token",
       });
     }
   });
@@ -168,7 +159,7 @@ module.exports = app => {
     Session.find(
       {
         _id: token,
-        isDeleted: false
+        isDeleted: false,
       },
       (err, session) => {
         if (token.length != 24)
@@ -176,14 +167,14 @@ module.exports = app => {
         if (err)
           return res.send({
             success: false,
-            message: "Error: Server Error" + err
+            message: "Error: Server Error" + err,
           });
         if (session.length != 1)
           return res.send({ success: false, message: "Error: " + err });
 
         return res.send({
           success: true,
-          message: "Verfied"
+          message: "Verfied",
         });
       }
     );

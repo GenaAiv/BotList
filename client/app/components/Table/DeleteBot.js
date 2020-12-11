@@ -12,7 +12,7 @@ class DeleteBot extends Component {
     store.dispatch(deleteBot(item._id));
   }
   render() {
-    const { item, onDeleteMessage } = this.props;
+    const { item } = this.props;
 
     return (
       <td className="deleteTD">

@@ -3,62 +3,62 @@ import axios from "axios";
 import {
   getFromStorage,
   setInStorage,
-  removeFromStorage
+  removeFromStorage,
 } from "../utils/storage";
 import store from "./store";
 
-export const fetchTable = () => dispatch => {
+export const fetchTable = () => (dispatch) => {
   dispatch({ type: actions.IS_LOADING });
   axios
     .get("/botlist/list")
-    .then(res => {
+    .then((res) => {
       if (res.data.success)
         return dispatch({
           type: actions.FETCH_TABLE,
-          payload: res.data.results
+          payload: res.data.results,
         });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actions.FETCH_ERROR,
-        payload: err
+        payload: err,
       });
     });
 };
 
-export const signIn = user => dispatch => {
+export const signIn = (user) => (dispatch) => {
   dispatch({ type: actions.IS_LOADING });
   axios({
     method: "POST",
     url: "/api/account/signin",
     data: user,
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   })
-    .then(res => {
+    .then((res) => {
       const { token } = res.data;
       if (res.data.success) {
         console.log(res.data);
         setInStorage("bebeToken", { token });
         return dispatch({
           type: actions.SIGNED_IN,
-          payload: res.data
+          payload: res.data,
         });
       } else {
         return dispatch({
           type: actions.SIGN_IN_ERROR,
-          payload: res.data
+          payload: res.data,
         });
       }
     })
-    .catch(err =>
+    .catch((err) =>
       dispatch({
         type: actions.SIGN_IN_ERROR,
-        payload: err
+        payload: err,
       })
     );
 };
 
-export const getToken = () => dispatch => {
+export const getToken = () => (dispatch) => {
   dispatch({ type: actions.IS_LOADING });
   //get the token from storage
 
@@ -70,110 +70,110 @@ export const getToken = () => dispatch => {
 
     axios
       .get(`/api/account/verify?token=${token}`)
-      .then(res => {
+      .then((res) => {
         if (res.data.success) {
           return dispatch({
             type: actions.GOT_TOKEN,
-            payload: res.data
+            payload: res.data,
           });
         } else {
           dispatch({
             type: actions.SIGN_IN_ERROR,
-            payload: ""
+            payload: "",
           });
         }
       })
-      .catch(err =>
+      .catch((err) =>
         dispatch({
           type: actions.SIGN_IN_ERROR,
-          payload: err
+          payload: err,
         })
       );
   }
 };
 
-export const signOut = () => dispatch => {
+export const signOut = () => (dispatch) => {
   console.log(store.getState().signIn.token);
   dispatch({ type: actions.IS_LOADING });
   const { token } = store.getState().signIn;
-  axios.get(`/api/account/logout?token=${token}`).then(res => {
+  axios.get(`/api/account/logout?token=${token}`).then((res) => {
     console.log("data from actions", res.data);
     if (res.data.success) {
       removeFromStorage("bebeToken");
       dispatch({
         type: actions.SIGN_OUT,
-        payload: res.data
+        payload: res.data,
       });
     }
   });
 };
-export const updateTable = (endpoint, value, id) => dispatch => {
+export const updateTable = (endpoint, value, id) => (dispatch) => {
   dispatch({ type: actions.IS_LOADING });
   let dataVal = {
     value,
-    _id: id
+    _id: id,
   };
   axios({
     method: "PATCH",
     url: `/botlist/update/${endpoint}`,
     data: dataVal,
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   })
-    .then(res => {
+    .then((res) => {
       if (res.data.success) {
         console.log("res actions", res.data);
         dispatch({
           type: actions.UPDATE_TABLE,
-          payload: res.data.results
+          payload: res.data.results,
         });
       } else {
         dispatch({
-          type: actions.FETCH_ERROR
+          type: actions.FETCH_ERROR,
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actions.FETCH_ERROR,
-        payload: err
+        payload: err,
       });
     });
 };
 // On update check if the inputted value is bigger then value stored in DB
 // or store row number for each item,
-export const deleteBot = id => dispatch => {
+export const deleteBot = (id) => (dispatch) => {
   let data = {
-    id
+    id,
   };
   axios({
     method: "DELETE",
     url: `/botlist/remove`,
     data,
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   })
-    .then(res => {
+    .then((res) => {
       console.log("res from actions", res);
       if (res.data.success) {
         dispatch({
           type: actions.BOT_DELETED,
-          payload: res.data.results
+          payload: res.data.results,
         });
       } else {
         dispatch({
           type: actions.DELETE_ERROR,
-          payload: res.data.results
+          payload: res.data.results,
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actions.FETCH_ERROR,
-        payload: err
+        payload: err,
       });
     });
 };
 
-export const addBot = data => dispatch => {
+export const addBot = (data) => (dispatch) => {
   dispatch({ type: actions.IS_LOADING });
   axios({
     method: "POST",
@@ -181,27 +181,27 @@ export const addBot = data => dispatch => {
     data,
     headers: {
       Accept: "application/json",
-      "Content-Type": "multipart/form-data"
-    }
+      "Content-Type": "multipart/form-data",
+    },
   })
-    .then(res => {
+    .then((res) => {
       if (res.data.success) {
         console.log("data from front", res.data);
         dispatch({
           type: actions.BOT_ADD,
-          payload: res.data.results
+          payload: res.data.results,
         });
       } else {
         dispatch({
           type: actions.DELETE_ERROR,
-          payload: res.data.results
+          payload: res.data.results,
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actions.FETCH_ERROR,
-        payload: err
+        payload: err,
       });
     });
 };

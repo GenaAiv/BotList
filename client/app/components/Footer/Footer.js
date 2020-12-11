@@ -4,10 +4,10 @@ import { Navbar, Nav } from "react-bootstrap";
 const Footer = () => (
   <footer>
     <hr />
-    <Navbar className="justify-content-center">
+    <Navbar>
       <Nav>
         <Nav.Item>
-          <p>Made with Lobe for my Bebe's</p>
+          <p></p>
         </Nav.Item>
       </Nav>
     </Navbar>

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import store from "../../redux/store";
 import { addBot } from "../../redux/actions";
+import { withAlert } from "react-alert";
 
 class AddBot extends Component {
   constructor(props) {
     super(props);
     this.state = {
       botName: "",
-      botLogo: ""
+      botLogo: "",
     };
     this.textInput = React.createRef();
 
@@ -18,17 +19,17 @@ class AddBot extends Component {
 
   onChangeLogo(e) {
     this.setState({
-      botLogo: e.target.files[0]
+      botLogo: e.target.files[0],
     });
   }
   onChangeName(e) {
     this.setState({
-      botName: e.target.value
+      botName: e.target.value,
     });
   }
   onSend() {
+    // console.log(this.state.botLogo);
     const { botName, botLogo } = this.state;
-
     let fd = new FormData();
     fd.append("botLogo", botLogo);
     fd.append("botName", botName);
@@ -36,11 +37,10 @@ class AddBot extends Component {
     store.dispatch(addBot(fd));
     this.setState({
       botName: "",
-      botLogo: ""
+      botLogo: "",
     });
     this.textInput.current.value = "";
   }
-
   render() {
     return (
       <>
@@ -64,11 +64,24 @@ class AddBot extends Component {
             onChange={this.onChangeLogo}
           ></input>
           <h6>{this.state.botLogo.name}</h6>
-          <button onClick={() => this.onSend()}>Add Bot</button>
+
+          <button
+            onClick={() => {
+              if (/\.png|\.jpeg|\.jpg/gim.test(this.state.botLogo.name)) {
+                this.onSend();
+              } else {
+                this.props.alert.error(
+                  "Wrong Format! Only .jpeg, .jpg or .png"
+                );
+              }
+            }}
+          >
+            Add Bot
+          </button>
         </div>
       </>
     );
   }
 }
 
-export default AddBot;
+export default withAlert()(AddBot);
