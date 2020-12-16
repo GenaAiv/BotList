@@ -33,27 +33,18 @@ export const signIn = (user) => (dispatch) => {
     type: actions.IS_LOADING
   });
   axios({
-<<<<<<< HEAD
       method: "POST",
-      url: "/api/account/signin",
+      url: "api/account/signin",
       data: user,
       headers: {
         "Content-Type": "application/json"
       },
     })
-=======
-    method: "POST",
-    url: "api/account/signin",
-    data: user,
-    headers: { "Content-Type": "application/json" },
-  })
->>>>>>> e81dc3fa51546d02349122fee7bb554eb78413a8
     .then((res) => {
       const {
         token
       } = res.data;
       if (res.data.success) {
-        console.log(res.data);
         setInStorage("bebeToken", {
           token
         });
@@ -115,21 +106,13 @@ export const getToken = () => (dispatch) => {
 };
 
 export const signOut = () => (dispatch) => {
-  console.log(store.getState().signIn.token);
-<<<<<<< HEAD
   dispatch({
     type: actions.IS_LOADING
   });
   const {
     token
   } = store.getState().signIn;
-  axios.get(`/api/account/logout?token=${token}`).then((res) => {
-=======
-  dispatch({ type: actions.IS_LOADING });
-  const { token } = store.getState().signIn;
   axios.get(`api/account/logout?token=${token}`).then((res) => {
->>>>>>> e81dc3fa51546d02349122fee7bb554eb78413a8
-    console.log("data from actions", res.data);
     if (res.data.success) {
       removeFromStorage("bebeToken");
       dispatch({
@@ -139,6 +122,7 @@ export const signOut = () => (dispatch) => {
     }
   });
 };
+
 export const updateTable = (endpoint, value, id) => (dispatch) => {
   dispatch({
     type: actions.IS_LOADING
@@ -148,24 +132,15 @@ export const updateTable = (endpoint, value, id) => (dispatch) => {
     _id: id,
   };
   axios({
-<<<<<<< HEAD
       method: "PATCH",
-      url: `/botlist/update/${endpoint}`,
+      url: `botlist/update/${endpoint}`,
       data: dataVal,
       headers: {
         "Content-Type": "application/json"
       },
     })
-=======
-    method: "PATCH",
-    url: `botlist/update/${endpoint}`,
-    data: dataVal,
-    headers: { "Content-Type": "application/json" },
-  })
->>>>>>> e81dc3fa51546d02349122fee7bb554eb78413a8
     .then((res) => {
       if (res.data.success) {
-        console.log("res actions", res.data);
         dispatch({
           type: actions.UPDATE_TABLE,
           payload: res.data.results,
@@ -190,23 +165,14 @@ export const deleteBot = (id) => (dispatch) => {
     id,
   };
   axios({
-<<<<<<< HEAD
       method: "DELETE",
-      url: `/botlist/remove`,
+      url: `botlist/remove`,
       data,
       headers: {
         "Content-Type": "application/json"
       },
     })
-=======
-    method: "DELETE",
-    url: `botlist/remove`,
-    data,
-    headers: { "Content-Type": "application/json" },
-  })
->>>>>>> e81dc3fa51546d02349122fee7bb554eb78413a8
     .then((res) => {
-      console.log("res from actions", res);
       if (res.data.success) {
         dispatch({
           type: actions.BOT_DELETED,
@@ -232,28 +198,16 @@ export const addBot = (data) => (dispatch) => {
     type: actions.IS_LOADING
   });
   axios({
-<<<<<<< HEAD
       method: "POST",
-      url: `/botlist/add`,
+      url: `botlist/add`,
       data,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
       },
     })
-=======
-    method: "POST",
-    url: `botlist/add`,
-    data,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "multipart/form-data",
-    },
-  })
->>>>>>> e81dc3fa51546d02349122fee7bb554eb78413a8
     .then((res) => {
       if (res.data.success) {
-        console.log("data from front", res.data);
         dispatch({
           type: actions.BOT_ADD,
           payload: res.data.results,
