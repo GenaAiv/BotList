@@ -43,8 +43,7 @@ module.exports = {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [
-            {
+          use: [{
               loader: "css-loader",
               options: {
                 sourceMap: true,
@@ -64,14 +63,12 @@ module.exports = {
       // images
       {
         test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              esModule: false,
-            },
+        use: [{
+          loader: "file-loader",
+          options: {
+            esModule: false,
           },
-        ],
+        }, ],
       },
     ],
   },
@@ -87,17 +84,16 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       template: helpers.root("client/public/index.html"),
-      inject: "body",
+      inject: false,
+      publicPath: "/botList/"
     }),
 
     new ExtractTextPlugin({
       filename: "css/[name].[hash].css",
       disable: !isProd,
     }),
-    new CopyWebpackPlugin([
-      {
-        from: helpers.root("client/public"),
-      },
-    ]),
+    new CopyWebpackPlugin([{
+      from: helpers.root("client/public"),
+    }, ]),
   ],
 };
