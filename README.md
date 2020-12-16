@@ -1,11 +1,33 @@
-## BotList
+# MERN-boilerplate
 
-### A fun project i created for a friend
+This is a boilerplate project using the following technologies:
+- [React](https://facebook.github.io/react/) and [React Router](https://reacttraining.com/react-router/) for the frontend
+- [Express](http://expressjs.com/) and [Mongoose](http://mongoosejs.com/) for the backend
+- [Sass](http://sass-lang.com/) for styles (using the SCSS syntax)
+- [Webpack](https://webpack.github.io/) for compilation
 
-Dynamic table that is connected to a database where you can store data and assign points to them.
 
-This project is made with using: MongoDB, Express.JS, React.JS/Redux and Node.js
+## Requirements
 
-- The data is stored inside a MongoDB Database
-- It is running on a Node server using the Express framework
-- The front-end is written with the React framework using Redux for state managing
+- [Node.js](https://nodejs.org/en/) 6+
+
+```shell
+npm install
+```
+
+
+## Running
+
+Make sure to add a `config.js` file in the `config` folder. See the example there for more details.
+
+Production mode:
+
+```shell
+npm start
+```
+
+Development (Webpack dev server) mode:
+
+```shell
+npm run start:dev
+```

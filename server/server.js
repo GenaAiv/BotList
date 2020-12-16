@@ -10,7 +10,7 @@ const config = require("../config/config");
 const webpackConfig = require("../webpack.config");
 require("dotenv").config();
 const isDev = process.env.NODE_ENV !== "production";
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8083;
 const db = process.env.MONGODB_URI;
 
 // Configuration
@@ -19,7 +19,7 @@ const db = process.env.MONGODB_URI;
 // Set up Mongoose
 mongoose
   .connect(
-    "mongodb+srv://gena-aiv:7182544a@supportyourlocalartist.umdtk.mongodb.net/botlist?retryWrites=true&w=majority",
+    db,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
