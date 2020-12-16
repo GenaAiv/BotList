@@ -84,8 +84,7 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       template: helpers.root("client/public/index.html"),
-      inject: false,
-      publicPath: "/botList/"
+      inject: "body",
     }),
 
     new ExtractTextPlugin({

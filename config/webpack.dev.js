@@ -14,6 +14,7 @@ module.exports = merge(commonConfig, {
 
   output: {
     filename: "js/[name].js",
+    publicPath: "/botlist/",
     chunkFilename: "[id].chunk.js",
   },
 

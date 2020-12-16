@@ -9,6 +9,7 @@ module.exports = merge(commonConfig, {
 
   output: {
     filename: 'js/[name].[hash].js',
+    publicPath: "/botlist/",
     chunkFilename: '[id].[hash].chunk.js'
   },
 
