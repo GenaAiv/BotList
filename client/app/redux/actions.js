@@ -10,7 +10,7 @@ import store from "./store";
 export const fetchTable = () => (dispatch) => {
   dispatch({ type: actions.IS_LOADING });
   axios
-    .get("/botlist/list")
+    .get("botlist/list")
     .then((res) => {
       if (res.data.success)
         return dispatch({
@@ -30,7 +30,7 @@ export const signIn = (user) => (dispatch) => {
   dispatch({ type: actions.IS_LOADING });
   axios({
     method: "POST",
-    url: "/api/account/signin",
+    url: "api/account/signin",
     data: user,
     headers: { "Content-Type": "application/json" },
   })
@@ -69,7 +69,7 @@ export const getToken = () => (dispatch) => {
     //verify the token
 
     axios
-      .get(`/api/account/verify?token=${token}`)
+      .get(`api/account/verify?token=${token}`)
       .then((res) => {
         if (res.data.success) {
           return dispatch({
@@ -96,7 +96,7 @@ export const signOut = () => (dispatch) => {
   console.log(store.getState().signIn.token);
   dispatch({ type: actions.IS_LOADING });
   const { token } = store.getState().signIn;
-  axios.get(`/api/account/logout?token=${token}`).then((res) => {
+  axios.get(`api/account/logout?token=${token}`).then((res) => {
     console.log("data from actions", res.data);
     if (res.data.success) {
       removeFromStorage("bebeToken");
@@ -115,7 +115,7 @@ export const updateTable = (endpoint, value, id) => (dispatch) => {
   };
   axios({
     method: "PATCH",
-    url: `/botlist/update/${endpoint}`,
+    url: `botlist/update/${endpoint}`,
     data: dataVal,
     headers: { "Content-Type": "application/json" },
   })
@@ -147,7 +147,7 @@ export const deleteBot = (id) => (dispatch) => {
   };
   axios({
     method: "DELETE",
-    url: `/botlist/remove`,
+    url: `botlist/remove`,
     data,
     headers: { "Content-Type": "application/json" },
   })
@@ -177,7 +177,7 @@ export const addBot = (data) => (dispatch) => {
   dispatch({ type: actions.IS_LOADING });
   axios({
     method: "POST",
-    url: `/botlist/add`,
+    url: `botlist/add`,
     data,
     headers: {
       Accept: "application/json",
