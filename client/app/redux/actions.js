@@ -8,9 +8,11 @@ import {
 import store from "./store";
 
 export const fetchTable = () => (dispatch) => {
-  dispatch({ type: actions.IS_LOADING });
+  dispatch({
+    type: actions.IS_LOADING
+  });
   axios
-    .get("/botlist/list")
+    .get("botlist/list")
     .then((res) => {
       if (res.data.success)
         return dispatch({
@@ -27,18 +29,26 @@ export const fetchTable = () => (dispatch) => {
 };
 
 export const signIn = (user) => (dispatch) => {
-  dispatch({ type: actions.IS_LOADING });
+  dispatch({
+    type: actions.IS_LOADING
+  });
   axios({
-    method: "POST",
-    url: "/api/account/signin",
-    data: user,
-    headers: { "Content-Type": "application/json" },
-  })
+      method: "POST",
+      url: "/api/account/signin",
+      data: user,
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
     .then((res) => {
-      const { token } = res.data;
+      const {
+        token
+      } = res.data;
       if (res.data.success) {
         console.log(res.data);
-        setInStorage("bebeToken", { token });
+        setInStorage("bebeToken", {
+          token
+        });
         return dispatch({
           type: actions.SIGNED_IN,
           payload: res.data,
@@ -59,13 +69,17 @@ export const signIn = (user) => (dispatch) => {
 };
 
 export const getToken = () => (dispatch) => {
-  dispatch({ type: actions.IS_LOADING });
+  dispatch({
+    type: actions.IS_LOADING
+  });
   //get the token from storage
 
   const obj = getFromStorage("bebeToken");
   if (obj && obj.token) {
     ///assign the token
-    const { token } = obj;
+    const {
+      token
+    } = obj;
     //verify the token
 
     axios
@@ -94,8 +108,12 @@ export const getToken = () => (dispatch) => {
 
 export const signOut = () => (dispatch) => {
   console.log(store.getState().signIn.token);
-  dispatch({ type: actions.IS_LOADING });
-  const { token } = store.getState().signIn;
+  dispatch({
+    type: actions.IS_LOADING
+  });
+  const {
+    token
+  } = store.getState().signIn;
   axios.get(`/api/account/logout?token=${token}`).then((res) => {
     console.log("data from actions", res.data);
     if (res.data.success) {
@@ -108,17 +126,21 @@ export const signOut = () => (dispatch) => {
   });
 };
 export const updateTable = (endpoint, value, id) => (dispatch) => {
-  dispatch({ type: actions.IS_LOADING });
+  dispatch({
+    type: actions.IS_LOADING
+  });
   let dataVal = {
     value,
     _id: id,
   };
   axios({
-    method: "PATCH",
-    url: `/botlist/update/${endpoint}`,
-    data: dataVal,
-    headers: { "Content-Type": "application/json" },
-  })
+      method: "PATCH",
+      url: `/botlist/update/${endpoint}`,
+      data: dataVal,
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
     .then((res) => {
       if (res.data.success) {
         console.log("res actions", res.data);
@@ -146,11 +168,13 @@ export const deleteBot = (id) => (dispatch) => {
     id,
   };
   axios({
-    method: "DELETE",
-    url: `/botlist/remove`,
-    data,
-    headers: { "Content-Type": "application/json" },
-  })
+      method: "DELETE",
+      url: `/botlist/remove`,
+      data,
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
     .then((res) => {
       console.log("res from actions", res);
       if (res.data.success) {
@@ -174,16 +198,18 @@ export const deleteBot = (id) => (dispatch) => {
 };
 
 export const addBot = (data) => (dispatch) => {
-  dispatch({ type: actions.IS_LOADING });
+  dispatch({
+    type: actions.IS_LOADING
+  });
   axios({
-    method: "POST",
-    url: `/botlist/add`,
-    data,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "multipart/form-data",
-    },
-  })
+      method: "POST",
+      url: `/botlist/add`,
+      data,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+      },
+    })
     .then((res) => {
       if (res.data.success) {
         console.log("data from front", res.data);

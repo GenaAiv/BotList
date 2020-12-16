@@ -15,12 +15,11 @@ const db = process.env.MONGODB_URI;
 
 // Configuration
 // ================================================================================================
-
+console.log(db);
 // Set up Mongoose
 mongoose
   .connect(
-    db,
-    {
+    db, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
@@ -32,7 +31,9 @@ mongoose
 mongoose.Promise = global.Promise;
 
 const app = express();
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(express.json());
 
 // API routes
