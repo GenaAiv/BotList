@@ -25,7 +25,7 @@ const Header = (props) => {
       <Navbar>
         <Nav activeKey={window.location.pathname}>
           <Nav.Item>
-            <Nav.Link href="/">ShabzBebeList</Nav.Link>
+            <Nav.Link href="https://genaaiv.dev/botlist">ShabzBebeList</Nav.Link>
           </Nav.Item>
           {props.isLoggedIn ? (
             <Nav.Item>

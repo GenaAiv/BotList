@@ -5,7 +5,6 @@ module.exports = (app) => {
   app.post("/api/account/signin", (req, res, next) => {
     // get the login information from the body of the request
     const { body } = req;
-    console.log(body);
     let { email, password } = body;
 
     // response if the email or password is empty
